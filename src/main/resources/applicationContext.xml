@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+	xmlns:dwra="http://www.directwebremoting.org/schema/spring-dwr-annotations"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:cache="http://www.springframework.org/schema/cache"
+	xmlns:ehcache="http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring"
+	xsi:schemaLocation="
+                http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+                http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+                http://www.springframework.org/schema/context 
+       			http://www.springframework.org/schema/context/spring-context-2.5.xsd
+       			http://www.directwebremoting.org/schema/spring-dwr http://www.directwebremoting.org/schema/spring-dwr-3.0.xsd
+       			http://www.directwebremoting.org/schema/spring-dwr-annotations http://www.directwebremoting.org/schema/spring-dwr-annotations.xsd
+       			http://www.springframework.org/schema/task
+       			http://www.springframework.org/schema/task/spring-task.xsd
+       			http://www.springframework.org/schema/cache
+       			http://www.springframework.org/schema/cache/spring-cache.xsd
+       			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring
+       			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
+
+	<!-- 引入jdbc.properties属性文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+
+	<!--本示例采用DBCP数据源，数据源配置如下 -->
+	<bean id="datasource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${driverClassName}" />
+		<property name="url" value="${jdbc_url}" />
+		<property name="username" value="${jdbc_username}" />
+		<property name="password" value="${jdbc_password}" />
+	</bean>
+
+	<!-- 配置MyBatis的sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 实例化sqlSessionFactory时需要使用上述配置好的数据源以及SQL映射文件 -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatisConfig.xml" />
+		<!-- 自动扫描com/trigl/mapping目录下的所有SQL映射的xml文件, 省掉Configuration.xml里的手工配置. 
+			value="classpath:com/trigl/mapping/*.xml" 指的是classpath(类路径)下com.trigl.mapping包中的所有xml文件 
+			例如UserMapper.xml位于com.trigl.mapping包下，这样UserMapper.xml就可以被自动扫描 -->
+		<property name="mapperLocations" value="classpath:com/trigl/mapping/*.xml" />
+	</bean>
+
+	<bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+		<constructor-arg index="1" value="BATCH" />
+	</bean>
+
+	<!-- 配置扫描器 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<!-- 扫描com.trigl.dao这个包以及它的子包下的所有映射接口类，从而代替手工使用SqlSessionDaoSupport或SqlSessionTemplate
+		编写数据访问对象(DAO)的代码,使用动态代理实现 -->
+		<property name="basePackage" value="com.trigl.dao" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+
+	<!-- 配置Spring的事务管理器 -->
+	<bean id="transactionManagerOracle"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+    <!-- 注解方式配置事务 -->
+	<tx:annotation-driven transaction-manager="transactionManagerOracle" />
+
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+
+	<!-- 配置redis池，依次为最大实例数，最大空闲实例数，(创建实例时)最大等待时间，(创建实例时)是否验证 -->
+	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"> 
+		<property name="maxTotal" value="${redis.pool.maxTotal}"/> <property name="maxIdle" 
+		value="${redis.pool.maxIdle}"/> <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/> 
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/> </bean> 
+		<bean id="jedisPool" class="redis.clients.jedis.JedisPool"> <constructor-arg 
+		index="0" ref="jedisPoolConfig" /> <constructor-arg index="1" value="${redis.host}" 
+		/> <constructor-arg index="2" value="${redis.port}" type="int" /> <constructor-arg 
+		index="3" value="2000" type="int"/> </bean> -->
+</beans>
+         
+         
