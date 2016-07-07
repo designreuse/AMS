@@ -23,4 +23,51 @@
 	<!-- 视图解释类 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"></bean>
 
+	<!-- mvc 拦截器，拦截器被包裹在过滤器中，处理请求顺序是：过滤器 -> 拦截器 -> 控制器 	-->
+	<mvc:interceptors>
+		
+		<mvc:interceptor>
+			<mvc:mapping path="/user*/**" />
+			<mvc:mapping path="/dictionary/**" />
+			<mvc:mapping path="/company/**" />
+			<mvc:mapping path="/dataRange/**" />
+			<mvc:mapping path="/model/**" />
+			<mvc:mapping path="/role*/**" />
+			<mvc:mapping path="/sys*/**" />
+			<mvc:mapping path="/rom*/**" />
+			<mvc:mapping path="/resourceType*/**" />
+			<mvc:mapping path="/phone*/**" />
+			<mvc:mapping path="/instruction*/**" />
+			<mvc:mapping path="/instChannel/**" />
+			<mvc:mapping path="/importresourc*/**" />
+			<mvc:mapping path="/ime/**" />
+			<mvc:mapping path="/department/**" />
+			<mvc:mapping path="/cpzsource/**" />
+			<mvc:mapping path="/cppasource/**" />
+			<mvc:mapping path="/company/**" />
+			<mvc:mapping path="/channelcust/**" />
+			<mvc:mapping path="/businessPerson/**" />
+			<mvc:mapping path="/app*/**" />
+			<mvc:mapping path="/index" />
+			<mvc:mapping path="/action/**" />
+			<mvc:mapping path="/snaker/**" />
+			
+			<mvc:exclude-mapping path="/user/tologin"/>
+			<mvc:exclude-mapping path="/user/login"/>
+			<mvc:exclude-mapping path="/instruction/flashtool_inst"/>
+			<mvc:exclude-mapping path="/romPackage/searchrom"/>
+			<bean class="com.trigl.interceptor.LoginInterceptor">
+			   	<property name="sessionKey">
+                    <value>user</value>
+            	</property>
+            	<property name="requestUrlKey">
+            		<value>userKey</value>
+            	</property>
+            	<property name="redirectUrl">
+            		<value>user/tologin</value>
+            	</property>	
+            </bean>
+		</mvc:interceptor>
+		
+	</mvc:interceptors>
 </beans>
