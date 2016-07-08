@@ -15,7 +15,25 @@
 	<!-- -->
 	<mvc:annotation-driven />
 	<mvc:resources location="/upload/" mapping="/upload/**" />
+	
 	<mvc:resources location="/content/js/" mapping="/content/js/**" />
+	<mvc:resources location="/content/css/" mapping="/content/css/**" />
+	<mvc:resources location="/content/img/" mapping="/content/img/**" />
+	<mvc:resources location="/content/html/" mapping="/content/html/**" />
+	<mvc:resources location="/content/apk/" mapping="/content/apk/**" />
+	<mvc:resources location="/content/select2/" mapping="/content/select2/**" />
+	
+	<mvc:resources location="/styles/js/" mapping="/styles/js/**" />
+	<mvc:resources location="/styles/css/" mapping="/styles/css/**" />
+	<mvc:resources location="/styles/images/" mapping="/styles/images/**" />
+	<mvc:resources location="/styles/bootstrap/" mapping="/styles/bootstrap/**" />
+	<mvc:resources location="/styles/CleverTabs/" mapping="/styles/CleverTabs/**" />
+	<mvc:resources location="/styles/My97DatePicker/" mapping="/styles/My97DatePicker/**" />
+	<mvc:resources location="/styles/wbox/" mapping="/styles/wbox/**" />
+	<mvc:resources location="/styles/zTreeStyle/" mapping="/styles/zTreeStyle/**" />
+	
+	<mvc:resources location="/excel/" mapping="/excel/**"/>	<!-- 导出excel下载 -->
+	<mvc:resources location="/common/" mapping="/common/**" />	<!-- snaker部分样式 -->
 	
 	<!-- 自动扫描(自动注入)，扫描com.trigl这个包以及它的子包的所有使用注解标注的类 -->
 	<context:component-scan base-package="com.trigl" />

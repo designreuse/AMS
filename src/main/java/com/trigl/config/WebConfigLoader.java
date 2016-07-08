@@ -32,7 +32,7 @@ public class WebConfigLoader {
 	private static Config loadConfig() throws Exception {
 		InputStream in = null;
 		try {
-			in = WebConfigLoader.class.getClassLoader().getResourceAsStream("conf.properties");
+			in = WebConfigLoader.class.getClassLoader().getResourceAsStream("config.properties");
 			Properties p = new Properties();
 			p.load(in);
 			Config con = new Config();

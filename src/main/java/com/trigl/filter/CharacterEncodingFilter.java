@@ -6,6 +6,8 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -16,6 +18,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
  *	2016年7月6日 下午6:56:48
  */
 public class CharacterEncodingFilter extends OncePerRequestFilter {
+	
+	private static Logger logger = Logger.getLogger(CharacterEncodingFilter.class);
 	private String encoding;
 
 	private boolean forceEncoding = false;
@@ -33,6 +37,8 @@ public class CharacterEncodingFilter extends OncePerRequestFilter {
 	protected void doFilterInternal(HttpServletRequest request,
 			HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
+		
+		logger.info("进入编码过滤器，url为————" + request.getRequestURL());
 
 		request.setCharacterEncoding("UTF-8");
 		if (this.forceEncoding && responseSetCharacterEncodingAvailable) {

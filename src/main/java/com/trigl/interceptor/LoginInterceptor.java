@@ -3,10 +3,8 @@ package com.trigl.interceptor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -15,10 +13,6 @@ import org.apache.log4j.Logger;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.acms.domain.JsonResponse;
-import com.acms.domain.JsonResponseFactory;
-import com.acms.entity.TModel;
-import com.alibaba.fastjson.JSON;
 import com.trigl.cache.SessionUtil;
 
 /**
@@ -65,6 +59,8 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		
+		logger.info("进入拦截器，请求的url为————" + request.getRequestURL());
+		
 		if (!isAuthorizedRequest(request)) {//未登录直接跳转
 			// 将访问url存入session中
 			putRequestUrl(request);
@@ -84,11 +80,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 				if (ignoreUrl.equals(requestUrl)) {
 					return true;
 				}
-			}
-			if (isAccessedRequest(request, requestUrl)) {
-				return true;
-			} else {
-				forbiddenRedirect(request, response);
 			}
 		}
 		return false;
@@ -112,32 +103,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 		return isValidSessionObject(sessionObject);
 	}
 
-	@SuppressWarnings(value="all")
-	protected boolean isAccessedRequest(HttpServletRequest request,
-			String requestUrl) throws IOException, ServletException {
-		HttpSession session = request.getSession(false);
-		boolean hasAccess = false;
-		if (session == null) {
-			return false;
-		}
-		List<TModel> userModelList = (List<TModel>) session.getAttribute("userModelList");
-		if (userModelList == null) {
-			return hasAccess;
-		} else {
-			if (request.getRequestURI().endsWith("index.jsp")) {
-				for (TModel tModel : userModelList) {
-					if (tModel != null && tModel.getUrl() != null
-							&& tModel.getUrl().equals(requestUrl)) {
-						hasAccess = true;
-					}
-				}
-			} else {
-				if (isValidRequest(request))
-					hasAccess = true;
-			}
-		}
-		return hasAccess;
-	}
 
 	/**
 	 * 
@@ -241,36 +206,6 @@ public class LoginInterceptor implements HandlerInterceptor {
 		}*/
 	}
 
-	/**
-	 * 
-	 * @param request
-	 * @param response
-	 */
-	public void forbiddenRedirect(HttpServletRequest request,
-			ServletResponse response) {
-		logger.error("无访问权限");
-		try {
-			response.setContentType("text/html; charset=UTF-8");
-			PrintWriter out = response.getWriter();
-			if (!isHttpRequest(request)) {
-				JsonResponse jr = JsonResponseFactory.getNoPRIJsonResp();
-				out.println(JSON.toJSON(jr));
-			} else {
-				out.println("<html><head></head>");
-				out.println("<body><script>");
-				// out.println("alert('');");
-				out.println(" setTimeout(function(){window.location = \""
-						+ request.getContextPath() + "\"}, 3000);");
-				out.println("</script>");
-				out.println("<h1>无权限的非法操作！</h1>");
-				out.println("</body></html>");
-				out.flush();
-				out.close();
-			}
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-		}
-	}
 
 	/** 获取重定向url，并将它存入session中 */
 	public String putRequestUrl(HttpServletRequest request) {

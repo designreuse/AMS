@@ -53,7 +53,7 @@
 	<!-- 编码过滤、超时过滤 -->
 	<filter>
 		<filter-name>encoding</filter-name>
-		<filter-class>com.acms.filter.VvCharacterEncodingFilter</filter-class>
+		<filter-class>com.trigl.filter.CharacterEncodingFilter</filter-class>
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
