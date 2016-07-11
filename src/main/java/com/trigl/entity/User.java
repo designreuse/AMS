@@ -27,6 +27,8 @@ public class User {
 
     private Integer userType;
 
+    private Integer roleId;
+
     public Integer getUserId() {
         return userId;
     }
@@ -121,5 +123,13 @@ public class User {
 
     public void setUserType(Integer userType) {
         this.userType = userType;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 }

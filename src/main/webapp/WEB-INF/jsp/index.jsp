@@ -56,9 +56,11 @@ String path = request.getContextPath();
             url:'${spath}/user/login',
             cache : false, 
             async: false, 
-            data:{username : $("#username").val(),password : $.md5($("#password").val())},
+            data:{"userName" : $("#username").val(),password : $.md5($("#password").val())},
     	    success : function(data){
+    	    	alert(1);
     	  			if (data.code == 0) {
+    	  				alert("成功");
     					$(".alert-success").fadeIn(300).delay(2000).fadeOut(500);
     					setTimeout(function(){
     						window.location = '${path}/index';
@@ -66,7 +68,10 @@ String path = request.getContextPath();
     				} else {
     					$(".alert-danger").fadeIn(300).delay(2000).fadeOut(500);
     				}
-    			}
+    			},
+            error : function() {
+            	alert("连接失败！");
+            }
   		});
   	}
   	</script>
