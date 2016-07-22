@@ -58,9 +58,7 @@ String path = request.getContextPath();
             async: false, 
             data:{"userName" : $("#username").val(),password : $.md5($("#password").val())},
     	    success : function(data){
-    	    	alert(1);
     	  			if (data.code == 0) {
-    	  				alert("成功");
     					$(".alert-success").fadeIn(300).delay(2000).fadeOut(500);
     					setTimeout(function(){
     						window.location = '${path}/index';

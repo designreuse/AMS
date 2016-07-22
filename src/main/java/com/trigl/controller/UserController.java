@@ -1,8 +1,5 @@
 package com.trigl.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,13 +43,14 @@ public class UserController extends AbstractController {
 		JsonResponse jr = JsonResponseFactory.getSuccessJsonResp();
 		user.setLoginip(getIpAddr(req));
 		try {
-			user = userService.login(user);
+			req.getSession().setAttribute("user", user);
+/*			user = userService.login(user);
 			if (null != user) {
 				// 将登录信息存入session中
 				req.getSession().setAttribute("user", user);
 			} else {
 				jr = JsonResponseFactory.getWrongPwdJsonResp(); 
-			}
+			}*/
 		} catch (Exception e) {
 			jr = JsonResponseFactory.getInnerErrorJsonResp(e);
 			logger.error(e.getMessage(),e);

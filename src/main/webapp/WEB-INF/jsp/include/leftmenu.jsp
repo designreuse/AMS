@@ -15,7 +15,7 @@
 			<li class="nav-header">
 				<div class="dropdown profile-element">
 					<span> <img alt="image" class="img-circle"
-						src="content/img/acms/headimg.jpg" />
+						src="content/img/ams/headimg.jpg"  style="width:48px;height:48px;"/>
 					</span> <a data-toggle="dropdown" class="dropdown-toggle" href="#"> <span
 						class="clear"> <span class="block m-t-xs"> <strong
 								class="font-bold">admin</strong>
@@ -36,7 +36,7 @@
 			<li><a class="J_menuItem" href="layouts.html"><i
 					class="fa fa-diamond"></i> <span class="nav-label">修改密码</span></a></li>
 
-			<c:forEach items="${firstMenu}" var="firstmenu">
+<%-- 			<c:forEach items="${firstMenu}" var="firstmenu">
 				<li><a href="${path }${firstmenu.uri}"><i
 						class="fa fa-th-large"></i> <span class="nav-label">
 							${firstmenu.menuname}</span> <span class="fa arrow"></span></a>
@@ -46,8 +46,8 @@
 							<li><a class="J_menuItem" href="${path }${secondmenu.uri}">${secondmenu.menuname}</a></li>
 						</c:forEach>
 					</ul></li>
-			</c:forEach>
-			<%--                     <li>
+			</c:forEach> --%>
+			                    <li>
                         <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">系统设置</span> <span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level collapse">
                         	<li><a class="J_menuItem" href="dashboard_2.html">用户管理</a></li>
@@ -80,7 +80,7 @@
                         	<li><a class="J_menuItem" href="dashboard_2.html">应用平台产品统计</a></li>
                             <li><a class="J_menuItem" href="${path}/appstatistics/index">应用中心分析统计</a></li>
                         </ul>
-                    </li> --%>
+                    </li>
 		</ul>
 
 	</div>

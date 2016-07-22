@@ -23,7 +23,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
         </div>
             <ul class="nav navbar-top-links navbar-right">
                 <li>
-                    <span class="m-r-sm text-muted welcome-message">Welcome to ACMS.</span>
+                    <span class="m-r-sm text-muted welcome-message">Welcome to AMS.</span>
                 </li>
                 <li>
                     <a class="right-sidebar-toggle">

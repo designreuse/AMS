@@ -1,5 +1,13 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+java.text.SimpleDateFormat formatter = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+java.util.Date currentTime = new java.util.Date();//得到当前系统时间
+
+String str_date1 = formatter.format(currentTime); //将日期时间格式化
+String str_date2 = currentTime.toString(); //将Date型日期时间转换成字符串形式
+%>
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -13,11 +21,11 @@
 	<link href="${spath}/content/css/font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <!-- Toastr style -->
-    <link href="${spath}/content/js/acms/toastr/toastr.min.css" rel="stylesheet">
+    <link href="${spath}/content/js/ams/toastr/toastr.min.css" rel="stylesheet">
 
-    <link href="${spath }/content/css/acms/animate.css" rel="stylesheet">
-    <link href="${spath }/content/css/acms/style.css" rel="stylesheet">
-    <link href="${spath }/content/css/acms/style.min.css" rel="stylesheet">
+    <link href="${spath }/content/css/ams/animate.css" rel="stylesheet">
+    <link href="${spath }/content/css/ams/style.css" rel="stylesheet">
+    <link href="${spath }/content/css/ams/style.min.css" rel="stylesheet">
 	
 	<!-- Main -->
 	<script type="text/javascript" src="${spath}/content/js/jquery/jquery-2.1.1.js"></script>
@@ -25,27 +33,27 @@
 	<script type="text/javascript" src="${spath}/content/css/bootstrap/js/bootstrap.min.js" ></script>
 	
 	<!-- Mainly scripts -->
-    <script src="${spath}/content/js/acms/metisMenu/jquery.metisMenu.js"></script>
-    <script src="${spath}/content/js/acms/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="${spath}/content/js/ams/metisMenu/jquery.metisMenu.js"></script>
+    <script src="${spath}/content/js/ams/slimscroll/jquery.slimscroll.min.js"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="${spath}/content/js/acms/inspinia.js"></script>
-    <script src="${spath}/content/js/acms/pace/pace.min.js"></script>
+    <script src="${spath}/content/js/ams/inspinia.js"></script>
+    <script src="${spath}/content/js/ams/pace/pace.min.js"></script>
     
     <!-- Contabs -->
-    <script src="${spath}/content/js/acms/contabs.min.js"></script>
+    <script src="${spath}/content/js/ams/contabs.min.js"></script>
 
     <!-- jQuery UI -->
-    <script src="${spath}/content/js/acms/jquery-ui/jquery-ui.min.js"></script>
+    <script src="${spath}/content/js/ams/jquery-ui/jquery-ui.min.js"></script>
 
     <!-- Sparkline -->
-    <script src="${spath}/content/js/acms/sparkline/jquery.sparkline.min.js"></script>
+    <script src="${spath}/content/js/ams/sparkline/jquery.sparkline.min.js"></script>
 
     <!-- ChartJS-->
-    <script src="${spath}/content/js/acms/chartJs/Chart.min.js"></script>
+    <script src="${spath}/content/js/ams/chartJs/Chart.min.js"></script>
 
     <!-- Toastr -->
-    <script src="${spath}/content/js/acms/toastr/toastr.min.js"></script>
+    <script src="${spath}/content/js/ams/toastr/toastr.min.js"></script>
   </head>
   
   <body>
@@ -91,7 +99,7 @@
 			</div>
 			<div class="footer">
 				<div class="pull-right">
-					© 2016-2018 <a href="#" target="_blank">ACMS</a>
+					© 2016-2018 <a href="#" target="_blank">AMS</a>
 				</div>
 			</div>
 
@@ -113,7 +121,7 @@
 							hideMethod : 'fadeOut',
 							timeOut : 4000
 						};
-						toastr.success('2016-06-16 10:10:10', 'Welcome to ACMS');
+						toastr.success('<%=str_date1%>', 'Welcome to AMS');
 					}, 1300);
 				});
 		function logout(){
