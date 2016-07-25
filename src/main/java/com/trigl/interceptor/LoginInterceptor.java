@@ -16,9 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import com.trigl.cache.SessionUtil;
 
 /**
- * SpringMVC拦截器，用于验证是否登录或者登录超时
- * @author	白鑫
- * @date	2016年7月7日 上午7:06:48
+ * SpringMVC拦截器，用于验证是否登录、登录超时以及权限
+ * @author 白鑫
+ *	2016年7月25日 上午9:56:23
  */
 public class LoginInterceptor implements HandlerInterceptor {
 
@@ -48,14 +48,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public void afterCompletion(HttpServletRequest req,
 			HttpServletResponse resp, Object obj, Exception ex)
 			throws Exception {
-
+		
 	}
 
 	public void postHandle(HttpServletRequest req, HttpServletResponse resp,
 			Object obj, ModelAndView mv) throws Exception {
-
+		
 	}
 
+	/**
+	 * 拦截器处理的入口方法
+	 */
 	public boolean preHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
 		
@@ -86,10 +89,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 	}
 
 	/**
-	 * Determines whether the specified HTTP request is authorized.
-	 * 
+	 * 验证是否登录
 	 * @param request
-	 * @return <code>if the request is valid return true otherwise return false</code>
+	 * @return
 	 * @throws IOException
 	 * @throws ServletException
 	 */
@@ -105,9 +107,9 @@ public class LoginInterceptor implements HandlerInterceptor {
 
 
 	/**
-	 * 
+	 * 验证存储的session对象是否存在
 	 * @param sessionObject
-	 * @return <code>true</code> if the session object is valid
+	 * @return
 	 */
 	protected boolean isValidSessionObject(Object sessionObject) {
 		return sessionObject != null;
@@ -170,44 +172,14 @@ public class LoginInterceptor implements HandlerInterceptor {
 			logger.error(e.getMessage(), e);
 		}
 		
-		// logger.error(request.getRemoteAddr() + "未找到session key为：" +
-		// sessionKey + "的对象");
-
-		// ajax请求 session过期时 返回字符串,如果是ajax请求响应头会有，x-requested-with
-		/*if (request.getHeader("x-requested-with") != null
-				&& request.getHeader("x-requested-with").equalsIgnoreCase(
-						"XMLHttpRequest")) {
-			response.setHeader("sessionstatus", "timeout");// 在响应头设置session状态
-			response.setHeader("location", request.getContextPath() + "/"
-					+ redirectUrl);
-		} else {
-			try {
-				response.setContentType("text/html; charset=UTF-8");
-				PrintWriter out = response.getWriter();
-				out.println("<html><head></head>");
-				out.println("<body><script>");
-				out.println("var wnd=this.window;");
-				out.println("while(1){");
-				out.println("if(wnd==wnd.parent){");
-				out.println("break;");
-				out.println("}else");
-				out.println("wnd=wnd.parent;");
-				out.println("}");
-				out.println("wnd.location.href='"
-						+ ((HttpServletRequest) request).getContextPath() + "/"
-						+ redirectUrl + "'");
-				out.println("</script>");
-				out.println("</body></html>");
-				out.flush();
-				out.close();
-			} catch (Exception e) {
-				logger.error(e.getMessage(), e);
-			}
-		}*/
 	}
 
 
-	/** 获取重定向url，并将它存入session中 */
+	/**
+	 * 获取重定向url，并将它存入session中
+	 * @param request
+	 * @return
+	 */
 	public String putRequestUrl(HttpServletRequest request) {
 		// 获取请求地址，存入session
 		String requestUrl = request.getRequestURL().toString();

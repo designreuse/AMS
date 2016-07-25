@@ -15,35 +15,38 @@
 	<!-- -->
 	<mvc:annotation-driven />
 	<mvc:resources location="/upload/" mapping="/upload/**" />
-	
+
 	<mvc:resources location="/content/js/" mapping="/content/js/**" />
 	<mvc:resources location="/content/css/" mapping="/content/css/**" />
 	<mvc:resources location="/content/img/" mapping="/content/img/**" />
 	<mvc:resources location="/content/html/" mapping="/content/html/**" />
 	<mvc:resources location="/content/apk/" mapping="/content/apk/**" />
 	<mvc:resources location="/content/select2/" mapping="/content/select2/**" />
-	
+
 	<mvc:resources location="/styles/js/" mapping="/styles/js/**" />
 	<mvc:resources location="/styles/css/" mapping="/styles/css/**" />
 	<mvc:resources location="/styles/images/" mapping="/styles/images/**" />
 	<mvc:resources location="/styles/bootstrap/" mapping="/styles/bootstrap/**" />
 	<mvc:resources location="/styles/CleverTabs/" mapping="/styles/CleverTabs/**" />
-	<mvc:resources location="/styles/My97DatePicker/" mapping="/styles/My97DatePicker/**" />
+	<mvc:resources location="/styles/My97DatePicker/"
+		mapping="/styles/My97DatePicker/**" />
 	<mvc:resources location="/styles/wbox/" mapping="/styles/wbox/**" />
 	<mvc:resources location="/styles/zTreeStyle/" mapping="/styles/zTreeStyle/**" />
-	
-	<mvc:resources location="/excel/" mapping="/excel/**"/>	<!-- 导出excel下载 -->
+
+	<mvc:resources location="/excel/" mapping="/excel/**" />	<!-- 导出excel下载 -->
 	<mvc:resources location="/common/" mapping="/common/**" />	<!-- snaker部分样式 -->
-	
+
 	<!-- 自动扫描(自动注入)，扫描com.trigl这个包以及它的子包的所有使用注解标注的类 -->
 	<context:component-scan base-package="com.trigl" />
-	
-	<!-- 视图解释类 -->
-	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"></bean>
 
-	<!-- mvc 拦截器，拦截器被包裹在过滤器中，处理请求顺序是：过滤器 -> 拦截器 -> 控制器 	-->
+	<!-- 视图解释类 -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+		p:prefix="/WEB-INF/jsp/" p:suffix=".jsp"></bean>
+
+	<!-- mvc 拦截器，拦截器被包裹在过滤器中，处理请求顺序是：过滤器 -> 拦截器 -> 控制器 	 -->
 	<mvc:interceptors>
-		
+
 		<mvc:interceptor>
 			<mvc:mapping path="/user*/**" />
 			<mvc:mapping path="/dictionary/**" />
@@ -51,6 +54,7 @@
 			<mvc:mapping path="/dataRange/**" />
 			<mvc:mapping path="/model/**" />
 			<mvc:mapping path="/role*/**" />
+			<mvc:mapping path="/menu/**" />
 			<mvc:mapping path="/sys*/**" />
 			<mvc:mapping path="/rom*/**" />
 			<mvc:mapping path="/resourceType*/**" />
@@ -69,23 +73,38 @@
 			<mvc:mapping path="/index" />
 			<mvc:mapping path="/action/**" />
 			<mvc:mapping path="/snaker/**" />
+
+			<mvc:mapping path="/game/**" />
+			<mvc:mapping path="/app/**" />
+			<mvc:mapping path="/sort/**" />
+			<mvc:mapping path="/appstatistics/**" />
+			<mvc:mapping path="/channel/**" />
+			<mvc:mapping path="/indivConf/**" />
+			<mvc:mapping path="/indiv/**" />
+			<mvc:mapping path="/product/**" />
+			<mvc:mapping path="/productupt/**" />
+			<mvc:mapping path="/source/**" />
+			<mvc:mapping path="/specialtopic/**" />
+			<mvc:mapping path="/open/**" />
 			
-			<mvc:exclude-mapping path="/user/tologin"/>
-			<mvc:exclude-mapping path="/user/login"/>
-			<mvc:exclude-mapping path="/instruction/flashtool_inst"/>
-			<mvc:exclude-mapping path="/romPackage/searchrom"/>
+			
+			<mvc:exclude-mapping path="/user/tologin" />
+			<mvc:exclude-mapping path="/user/login" />
+			<mvc:exclude-mapping path="/instruction/flashtool_inst" />
+			<mvc:exclude-mapping path="/romPackage/searchrom" />
 			<bean class="com.trigl.interceptor.LoginInterceptor">
-			   	<property name="sessionKey">
-                    <value>user</value>
-            	</property>
-            	<property name="requestUrlKey">
-            		<value>userKey</value>
-            	</property>
-            	<property name="redirectUrl">
-            		<value>user/tologin</value>
-            	</property>	
-            </bean>
+				<property name="sessionKey">
+					<value>user</value>
+				</property>
+				<property name="requestUrlKey">
+					<value>userKey</value>
+				</property>
+				<property name="redirectUrl">
+					<value>user/tologin</value>
+				</property>
+			</bean>
 		</mvc:interceptor>
-		
+
 	</mvc:interceptors>
+
 </beans>
