@@ -22,7 +22,8 @@
        			http://ehcache-spring-annotations.googlecode.com/svn/schema/ehcache-spring/ehcache-spring-1.1.xsd">
 
 	<!-- 引入jdbc.properties属性文件 -->
-	<context:property-placeholder location="classpath:jdbc.properties,classpath:config.properties" />
+	<context:property-placeholder
+		location="classpath:jdbc.properties,classpath:config.properties" />
 
 	<!--本示例采用DBCP数据源，数据源配置如下 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
@@ -50,8 +51,8 @@
 
 	<!-- 配置扫描器 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<!-- 扫描com.trigl.dao这个包以及它的子包下的所有映射接口类，从而代替手工使用SqlSessionDaoSupport或SqlSessionTemplate
-		编写数据访问对象(DAO)的代码,使用动态代理实现 -->
+		<!-- 扫描com.trigl.dao这个包以及它的子包下的所有映射接口类，从而代替手工使用SqlSessionDaoSupport或SqlSessionTemplate 
+			编写数据访问对象(DAO)的代码,使用动态代理实现 -->
 		<property name="basePackage" value="com.trigl.dao" />
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
@@ -62,21 +63,46 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
-    <!-- 注解方式配置事务 -->
+	<!-- 注解方式配置事务 -->
 	<tx:annotation-driven transaction-manager="transactionManagerOracle" />
 
 	<bean id="multipartResolver"
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
 
-	<!-- 配置redis池，依次为最大实例数，最大空闲实例数，(创建实例时)最大等待时间，(创建实例时)是否验证 -->
-	<!-- <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig"> 
-		<property name="maxTotal" value="${redis.pool.maxTotal}"/> <property name="maxIdle" 
-		value="${redis.pool.maxIdle}"/> <property name="maxWaitMillis" value="${redis.pool.maxWaitMillis}"/> 
-		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}"/> </bean> 
-		<bean id="jedisPool" class="redis.clients.jedis.JedisPool"> <constructor-arg 
-		index="0" ref="jedisPoolConfig" /> <constructor-arg index="1" value="${redis.host}" 
-		/> <constructor-arg index="2" value="${redis.port}" type="int" /> <constructor-arg 
-		index="3" value="2000" type="int"/> </bean> -->
+	<!-- jedis 配置 -->
+	<bean id="poolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.maxIdle}" />
+		<property name="maxWaitMillis" value="${redis.maxWait}" />
+		<property name="testOnBorrow" value="${redis.testOnBorrow}" />
+	</bean>
+	<!-- redis服务器中心 -->
+	<bean id="connectionFactory"
+		class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+		<property name="poolConfig" ref="poolConfig" />
+		<property name="port" value="${redis.port}" />
+		<property name="hostName" value="${redis.host}" />
+		<property name="password" value="${redis.password}" />
+		<property name="timeout" value="${redis.timeout}"></property>
+	</bean>
+	<bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="keySerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.StringRedisSerializer" />
+		</property>
+		<property name="valueSerializer">
+			<bean
+				class="org.springframework.data.redis.serializer.JdkSerializationRedisSerializer" />
+		</property>
+	</bean>
+
+	<!-- cache配置 -->
+	<bean id="methodCacheInterceptor" class="com.trigl.interceptor.MethodCacheInterceptor">
+		<property name="redisUtil" ref="redisUtil" />
+	</bean>
+	<bean id="redisUtil" class="com.trigl.util.RedisUtil">
+		<property name="redisTemplate" ref="redisTemplate" />
+	</bean>
 </beans>
          
          
