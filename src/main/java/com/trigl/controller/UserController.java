@@ -44,18 +44,24 @@ public class UserController extends AbstractController {
 		JsonResponse jr = JsonResponseFactory.getSuccessJsonResp();
 		user.setLoginip(getIpAddr(req));
 		try {
-			req.getSession().setAttribute("user", user);
-/*			user = userService.login(user);
+			user = userService.login(user);
 			if (null != user) {
 				// 将登录信息存入session中
 				req.getSession().setAttribute("user", user);
 			} else {
 				jr = JsonResponseFactory.getWrongPwdJsonResp(); 
-			}*/
+			}
 		} catch (Exception e) {
 			jr = JsonResponseFactory.getInnerErrorJsonResp(e);
 			logger.error(e.getMessage(),e);
 		}
 		return jr;
+	}
+	
+	@RequestMapping("/logout")
+	public ModelAndView logout(HttpServletRequest req,HttpServletResponse resp){
+		ModelAndView mv = new AMSView("index");
+		req.getSession().invalidate();
+		return mv;
 	}
 }

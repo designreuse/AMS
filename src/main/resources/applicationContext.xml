@@ -31,6 +31,24 @@
 		<property name="url" value="${jdbc_url}" />
 		<property name="username" value="${jdbc_username}" />
 		<property name="password" value="${jdbc_password}" />
+		<!-- 初始化连接数 -->
+		<property name="initialSize" value="1" />
+		<!-- 最大活动连接数 -->
+		<property name="maxActive" value="50" />
+		<!-- 最大空闲连接数 -->
+		<property name="maxIdle" value="5" />
+		<!-- 最小空闲连接数 -->
+		<property name="minIdle" value="15" />
+		<property name="validationQuery" value="select 1" />
+		<property name="testOnBorrow" value="false" />
+		<property name="testWhileIdle" value="true" />
+		<property name="testOnReturn" value="false" />
+		<!-- 获取连接超时等待时间(毫秒) -->
+		<property name="maxWait" value="60000" />
+		<!-- 空闲池空闲连接激活线程的运行间隔时间（毫秒） -->
+		<property name="timeBetweenEvictionRunsMillis" value="60000" />
+		<!-- 空闲池中空闲连接能够被激活前的最小空闲时间（毫秒） -->
+		<property name="minEvictableIdleTimeMillis" value="25200000" />
 	</bean>
 
 	<!-- 配置MyBatis的sqlSessionFactory -->
